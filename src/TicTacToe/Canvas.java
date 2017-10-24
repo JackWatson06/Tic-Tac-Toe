@@ -3,7 +3,6 @@ package TicTacToe;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -19,9 +18,14 @@ public class Canvas extends JPanel{
 	BufferedImage turnNotification;
 	int width;
 	
+	
+	//The Canvas class is in control of all drawing to the screen.
+	
 	public Canvas(){
 		
 	}
+	
+	//This draws the initial board.
 	
 	public void setUpBoard(int lineWidth){
 		
@@ -49,6 +53,9 @@ public class Canvas extends JPanel{
 		repaint();
 		
 	}
+	
+	//This adds a square when a square needs to be added.
+	
 	public void addSquare(int where, Color color){
 		Graphics2D g3 = board.createGraphics();
 		g3.setColor(color);
@@ -83,6 +90,9 @@ public class Canvas extends JPanel{
 		repaint();
 		
 	}
+	
+	//This adds a circle when a circle needs to be added.
+	
 	public void addCircle(int where, Color color){
 		Graphics2D g3 = board.createGraphics();
 		g3.setColor(color);
@@ -117,8 +127,10 @@ public class Canvas extends JPanel{
 		repaint();
 	}
 	
+	//This draws a line for when the game is one.
+	
 	public void drawLine(int where){
-		System.out.println("Test");
+		//System.out.println("Test");
 		Graphics2D g4 = board.createGraphics();
 		g4.setColor(Color.black);
 		if(where == 1){
@@ -145,6 +157,8 @@ public class Canvas extends JPanel{
 		
 	}
 	
+	//This draws the win screen.
+	
 	public void drawWinScreen(){
 		Font font = new Font("Verodana", Font.BOLD, 30);
 		Graphics2D g4 = board.createGraphics();
@@ -153,12 +167,11 @@ public class Canvas extends JPanel{
 		g4.setColor(Color.orange);
 		g4.setFont(font);
 		g4.drawString("You Win!!!", (getWidth() / 2) - 70, getHeight() / 2);
-		FontMetrics test = g4.getFontMetrics(font);
-		int test2 = test.getHeight();
-		System.out.println(test2);
 		g4.dispose();
 		repaint();
 	}
+	
+	//This draws the loose screen.
 	
 	public void drawLooseScreen(){
 		Font font = new Font("Verodana", Font.BOLD, 30);
@@ -173,6 +186,8 @@ public class Canvas extends JPanel{
 
 	}
 	
+	//This draws the tie screen.
+	
 	public void drawTieScreen(){
 		Font font = new Font("Verodana", Font.BOLD, 30);
 		Graphics2D g4 = board.createGraphics();
@@ -185,6 +200,9 @@ public class Canvas extends JPanel{
 		repaint();
 
 	}
+	
+	//This draws the turn notification.
+	
 	public void turnNotification(boolean test){
 		Font font = new Font("Verodana", Font.BOLD, 20);
 		Graphics2D g = turnNotification.createGraphics();
@@ -219,6 +237,9 @@ public class Canvas extends JPanel{
 		g.dispose();
 		
 	}
+	
+	//This is the actually method that paints the graphics to the screen.
+	
 	public void paintComponent(Graphics render){
 	
 
