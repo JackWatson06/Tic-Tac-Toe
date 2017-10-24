@@ -13,9 +13,12 @@ public class Title extends JPanel {
 
 	BufferedImage image;
 	
+	//This class just draws the title at the start of the game in random colors.
+	
 	public Title(){
 		
 	}
+	
 	
 	public void drawTitle(){
 		image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
