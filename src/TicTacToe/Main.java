@@ -78,6 +78,10 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 	FlowLayout secondLayout = new FlowLayout();
 	private static final int window = JComponent.WHEN_IN_FOCUSED_WINDOW;
 	boolean positionFound = false;
+	
+	
+	
+	boolean volatile waitingForInput = true;
 
 	// This main constructor sets the frame of the game.
 	
@@ -175,17 +179,21 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 			for (int i = 0; i < 9; i++) {
 				point[i] = 0;
 			}
-			boolean waiting = true;
-			while (waiting) {
+
+			while (waitingForInput) {
 				try {
-					this.wait();
+					Thread.sleep(100);
 
 				} catch (Exception e) {
 
 				}
-				waiting = false;
+			
 
 			}
+			waitingForInput = true;
+			
+			
+			
 			int test = (int) ((float) (Math.random() * 10));
 
 			if (test <= 5) {
@@ -210,7 +218,16 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 				while (playersTurn2) {
 					try {
 						graphics.turnNotification(true);
-						this.wait();
+						while(waitingForInput){
+							
+							try{
+								Thread.sleep(50);
+							}catch(Exception e){
+								
+								
+							}
+						}
+						waitingForInput = true;
 					} catch (Exception e) {
 
 					}
@@ -232,7 +249,16 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 			running = true;
 			while (endScreen) {
 				try {
-					this.wait();
+					while(waitingForInput){
+						
+						try{
+							Thread.sleep(100);
+							
+						}catch(Exception e){
+							
+						}
+						
+					}
 				} catch (Exception e) {
 				}
 
@@ -1055,7 +1081,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 				add(graphics);
 				setVisible(true);
 				graphics.setUpBoard(6);
-				this.notifyAll();
+				waitingForInput = true;
 
 			} else if (command.equals("Return To Title Screen")) {
 				graphics.remove(resetPanel);
@@ -1066,7 +1092,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 				playersTurn2 = true;
 				computerPlayersTurn = true;
 				win2 = true;
-				this.notifyAll();
+				waitingForInput = true;
 
 			} else if (command.equalsIgnoreCase("Exit Game")) {
 				System.exit(0);
@@ -1078,7 +1104,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 	
 	public void notifyEverything() {
 		synchronized (this) {
-			this.notifyAll();
+			waitingForInput = true;
 		}
 	}
 
