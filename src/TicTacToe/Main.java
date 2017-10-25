@@ -25,6 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 @SuppressWarnings("serial")
@@ -165,7 +166,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 	}
 
 	public static void main(String[] args) {
-		new Main();
+		SwingUtilities.invokeLater(new Main());
 	}
 
 	// This is what runs the game and keep tracks of the game order.
@@ -208,6 +209,17 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 
 				keyBindings(true);
 				while (playersTurn2) {
+					
+					
+					
+					
+					
+					pressed2 = 0;
+					
+					
+					
+					
+					
 					try {
 						graphics.turnNotification(true);
 						this.wait();
