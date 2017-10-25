@@ -78,10 +78,6 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 	FlowLayout secondLayout = new FlowLayout();
 	private static final int window = JComponent.WHEN_IN_FOCUSED_WINDOW;
 	boolean positionFound = false;
-	
-	
-	
-	boolean volatile waitingForInput = true;
 
 	// This main constructor sets the frame of the game.
 	
@@ -89,7 +85,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 		super("Tic-Tac-Toe");
 		setSize(Width, Height);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
+		setResizable(true);
 
 		title.setLayout(box);
 		title.setLayout(box);
@@ -179,21 +175,17 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 			for (int i = 0; i < 9; i++) {
 				point[i] = 0;
 			}
-
-			while (waitingForInput) {
+			boolean waiting = true;
+			while (waiting) {
 				try {
-					Thread.sleep(100);
+					this.wait();
 
 				} catch (Exception e) {
 
 				}
-			
+				waiting = false;
 
 			}
-			waitingForInput = true;
-			
-			
-			
 			int test = (int) ((float) (Math.random() * 10));
 
 			if (test <= 5) {
@@ -218,16 +210,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 				while (playersTurn2) {
 					try {
 						graphics.turnNotification(true);
-						while(waitingForInput){
-							
-							try{
-								Thread.sleep(50);
-							}catch(Exception e){
-								
-								
-							}
-						}
-						waitingForInput = true;
+						this.wait();
 					} catch (Exception e) {
 
 					}
@@ -249,16 +232,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 			running = true;
 			while (endScreen) {
 				try {
-					while(waitingForInput){
-						
-						try{
-							Thread.sleep(100);
-							
-						}catch(Exception e){
-							
-						}
-						
-					}
+					this.wait();
 				} catch (Exception e) {
 				}
 
@@ -1049,7 +1023,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 		}
 	}
 
-	//This adds a reset button when the game is tied, lost, or one.
+	//This adds a reset button when the game is tied, lost, or won.
 	
 	public void addResetButton() {
 		reset.addActionListener(this);
@@ -1081,7 +1055,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 				add(graphics);
 				setVisible(true);
 				graphics.setUpBoard(6);
-				waitingForInput = true;
+				this.notifyAll();
 
 			} else if (command.equals("Return To Title Screen")) {
 				graphics.remove(resetPanel);
@@ -1092,7 +1066,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 				playersTurn2 = true;
 				computerPlayersTurn = true;
 				win2 = true;
-				waitingForInput = true;
+				this.notifyAll();
 
 			} else if (command.equalsIgnoreCase("Exit Game")) {
 				System.exit(0);
@@ -1104,7 +1078,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 	
 	public void notifyEverything() {
 		synchronized (this) {
-			waitingForInput = true;
+			this.notifyAll();
 		}
 	}
 
