@@ -18,6 +18,9 @@ public class Canvas extends JPanel{
 	BufferedImage turnNotification;
 	int width;
 	
+	BufferedImage testing;
+	BufferedImage testingKey;
+	
 	
 	//The Canvas class is in control of all drawing to the screen.
 	
@@ -29,7 +32,8 @@ public class Canvas extends JPanel{
 	
 	public void setUpBoard(int lineWidth){
 		
-
+		System.out.println(": Set up Board");
+		
 		board = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
 		//Background
 		Graphics2D g = board.createGraphics();
@@ -50,6 +54,9 @@ public class Canvas extends JPanel{
 		//Set Up Turn Notification
 		turnNotification = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
 		
+		testing = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+		testingKey = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+		
 		repaint();
 		
 	}
@@ -57,6 +64,9 @@ public class Canvas extends JPanel{
 	//This adds a square when a square needs to be added.
 	
 	public void addSquare(int where, Color color){
+		
+		System.out.println(": Add a Square " + where);
+		
 		Graphics2D g3 = board.createGraphics();
 		g3.setColor(color);
 		if(where == 1){
@@ -94,6 +104,8 @@ public class Canvas extends JPanel{
 	//This adds a circle when a circle needs to be added.
 	
 	public void addCircle(int where, Color color){
+		System.out.println(": Add a Circle " + where);
+		
 		Graphics2D g3 = board.createGraphics();
 		g3.setColor(color);
 		if(where == 1){
@@ -130,6 +142,9 @@ public class Canvas extends JPanel{
 	//This draws a line for when the game is one.
 	
 	public void drawLine(int where){
+		
+		System.out.println(": Draw Line");
+		
 		//System.out.println("Test");
 		Graphics2D g4 = board.createGraphics();
 		g4.setColor(Color.black);
@@ -160,6 +175,9 @@ public class Canvas extends JPanel{
 	//This draws the win screen.
 	
 	public void drawWinScreen(){
+		
+		System.out.println(": Win Screen");
+		
 		Font font = new Font("Verodana", Font.BOLD, 30);
 		Graphics2D g4 = board.createGraphics();
 		g4.setColor(Color.white);
@@ -174,6 +192,9 @@ public class Canvas extends JPanel{
 	//This draws the loose screen.
 	
 	public void drawLooseScreen(){
+		
+		System.out.println(": Loose Screen");
+		
 		Font font = new Font("Verodana", Font.BOLD, 30);
 		Graphics2D g4 = board.createGraphics();
 		g4.setColor(Color.white);
@@ -189,6 +210,9 @@ public class Canvas extends JPanel{
 	//This draws the tie screen.
 	
 	public void drawTieScreen(){
+		
+		System.out.println(": Tie Screen");
+		
 		Font font = new Font("Verodana", Font.BOLD, 30);
 		Graphics2D g4 = board.createGraphics();
 		g4.setColor(Color.white);
@@ -204,6 +228,9 @@ public class Canvas extends JPanel{
 	//This draws the turn notification.
 	
 	public void turnNotification(boolean test){
+		
+		System.out.println(": Update turn notification, " + test);
+		
 		Font font = new Font("Verodana", Font.BOLD, 20);
 		Graphics2D g = turnNotification.createGraphics();
 		g.setFont(font);
@@ -238,6 +265,59 @@ public class Canvas extends JPanel{
 		
 	}
 	
+	public void drawTesting(int[] pointData) {
+		
+		
+		
+		Font font = new Font("Verodana", Font.BOLD, 20);
+		Graphics2D g = testing.createGraphics();
+		g.setFont(font);
+		String drawString = "";
+		for(int i = 0; i < pointData.length; i++) {
+			if(i + 1 < pointData.length) {
+				drawString += pointData[i] + " , ";
+			}else {
+				drawString += pointData[i];
+			}
+		}
+		
+		
+		g.setBackground(new Color(255, 255, 255, 0));
+        g.clearRect(0,0, getWidth(), getHeight());
+		g.setColor(Color.black);
+		g.drawString(drawString, 400, 40);
+		g.dispose();
+		repaint();
+		
+	}
+	
+	public void removeDrawTesting() {
+		Graphics2D g = testing.createGraphics();
+		g.setBackground(new Color(255,255,255,0));
+		g.clearRect(0, 0, getWidth(), getHeight());
+		g.dispose();
+	}
+	
+	public void drawTestingKey(int keyPress) {
+		Font font = new Font("Verodana", Font.BOLD, 20);
+		Graphics2D g = testingKey.createGraphics();
+		g.setFont(font);
+		String drawString = Integer.toString(keyPress);
+		g.setBackground(new Color(255, 255, 255, 0));
+        g.clearRect(0,0, getWidth(), getHeight());
+		g.setColor(Color.black);
+		g.drawString(drawString, 10, 25);
+		g.dispose();
+		repaint();
+	}
+	
+	public void removeKeyPress() {
+		Graphics2D g = testingKey.createGraphics();
+		g.setBackground(new Color(255,255,255,0));
+		g.clearRect(0, 0, getWidth(), getHeight());
+		g.dispose();
+	}
+	
 	//This is the actually method that paints the graphics to the screen.
 	
 	public void paintComponent(Graphics render){
@@ -247,6 +327,8 @@ public class Canvas extends JPanel{
 		Graphics2D g = (Graphics2D) render.create();
 		g.drawImage(board, 0, 0, this);
 		g.drawImage(turnNotification, 0, 0, this);
+		g.drawImage(testing, 0, 0, this);
+		g.drawImage(testingKey, 0, 0, this);
 		g.dispose();
 		
 		

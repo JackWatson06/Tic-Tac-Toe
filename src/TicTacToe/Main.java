@@ -176,9 +176,21 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 			for (int i = 0; i < 9; i++) {
 				point[i] = 0;
 			}
+			
+			System.out.print(": ");
+			for (int i = 0; i < 9; i++) {
+				if(i < 8) {
+					System.out.print(point[i] + ",");
+				}else {
+					System.out.println(point[i]);
+				}
+			}
+			
 			boolean waiting = true;
+			title.drawTesting(point);
 			while (waiting) {
 				try {
+					System.out.println(": Wait for start");
 					this.wait();
 
 				} catch (Exception e) {
@@ -187,6 +199,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 				waiting = false;
 
 			}
+			title.removeDrawTesting();
 			int test = (int) ((float) (Math.random() * 10));
 
 			if (test <= 5) {
@@ -195,13 +208,27 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 			if (test > 5) {
 				first = 2;
 			}
+			
+			System.out.println(": Player or Computer First (if 2 it is computer) " + first);
+			
 			while (running) {
 
 				if (first == 2) {
+					System.out.println(": Computers Turn");
 					graphics.turnNotification(false);
+					graphics.drawTesting(point);
 					computerPlayer();
 					win();
 					win2 = false;
+					
+					System.out.print(": After computer turn | ");
+					for (int i = 0; i < 9; i++) {
+						if(i < 8) {
+							System.out.print(point[i] + ",");
+						}else {
+							System.out.println(point[i]);
+						}
+					}
 				}
 				if (first == 1) {
 					win2 = true;
@@ -210,39 +237,64 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 				keyBindings(true);
 				while (playersTurn2) {
 					
-					
-					
-					
-					
+			
 					pressed2 = 0;
-					
-					
-					
 					
 					
 					try {
 						graphics.turnNotification(true);
+						graphics.drawTesting(point);
+						
+						System.out.println(": Players Turn");
+						
 						this.wait();
 					} catch (Exception e) {
 
 					}
 
 					setIndex();
+					
+					
 
 				}
+				
+				System.out.print(": After player turn | ");
+				for (int i = 0; i < 9; i++) {
+					if(i < 8) {
+						System.out.print(point[i] + ",");
+					}else {
+						System.out.println(point[i]);
+					}
+				}
+				
 				keyBindings(false);
 				playersTurn2 = true;
 				if (running) {
 					win();
 				}
 				if (win2) {
+					
+					System.out.println(": Computers Turn");
+					
 					graphics.turnNotification(false);
+					graphics.drawTesting(point);
 					computerPlayer();
 					win();
+					
+					System.out.print(": After Computer turn | ");
+					for (int i = 0; i < 9; i++) {
+						if(i < 8) {
+							System.out.print(point[i] + ",");
+						}else {
+							System.out.println(point[i]);
+						}
+					}
 				}
 			}
 			running = true;
 			while (endScreen) {
+				graphics.drawTesting(point);
+				
 				try {
 					this.wait();
 				} catch (Exception e) {
@@ -263,8 +315,12 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 		int[] modifierPressed = { 36, 38, 33, 37, 12, 39, 35, 40, 34 };
 		int[] numberPressed = {103, 104, 105, 100, 101, 102, 97, 98, 99};
 
+		graphics.drawTestingKey(pressed2);
+		
 		for (int a = 0; a < 9; a++) {
 			if ((pressed2 == lettersPressed[a] || pressed2 == modifierPressed[a] || pressed2 == numberPressed[a]) && point[a] == 0) {
+				System.out.println(": Player moved " + (a + 1));
+				
 				playersTurn2 = false;
 				if (player) {
 					graphics.addSquare(a + 1, ColorSelecterSquare.colorSquare);
@@ -282,7 +338,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 	}
 
 	
-	//This determines the computer players move based on the threed differing levels of difficulty.
+	//This determines the computer players move based on the three differing levels of difficulty.
 	//Easy chooses randomly.
 	//Normal tries to block the player.
 	//Hard tries to set up instances where the computer can win.
@@ -394,7 +450,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 
 		} else if (difficultyNumber == 3) {
 			normalAndHardDifficultyMovement();
-
+			System.out.println(": Computers Turn After Blocking Check");
 			if (!positionFound) {
 
 				int[] activeSpaces = { 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9 };
@@ -868,6 +924,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 							win2Circles = true;
 						}
 						graphics.clearTurnNotification();
+
 					}
 
 				}
@@ -897,6 +954,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 						win2Circles = true;
 					}
 					graphics.clearTurnNotification();
+
 				}
 
 			}
@@ -914,6 +972,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 				}
 				graphics.clearTurnNotification();
 
+
 			}
 			if (point[2] == a && point[4] == a && point[6] == a) {
 				graphics.drawLine(8);
@@ -927,6 +986,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 					win2Circles = true;
 				}
 				graphics.clearTurnNotification();
+
 			}
 		}
 
@@ -943,6 +1003,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 			int sleep = 0;
 			boolean tieGame = true;
 			graphics.clearTurnNotification();
+
 			while (tieGame) {
 				try {
 					Thread.sleep(200);
@@ -1148,6 +1209,7 @@ public class Main extends JFrame implements ActionListener, ItemListener, Runnab
 
 		}
 
+		
 		public void actionPerformed(ActionEvent arg0) {
 			synchronized (this) {
 				pressed2 = pressed3;
